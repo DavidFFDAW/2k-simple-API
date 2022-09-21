@@ -31,6 +31,7 @@ class Images {
             $information['url'] = IMAGES_URL.$file;
             $information['name'] = $file;
             $information['size'] = filesize($dirFile);
+            $information['image_size'] = getimagesize($dirFile);
             $information['date'] = filemtime($dirFile);
             $information['type'] = mime_content_type($dirFile);
             $information['extension'] = pathinfo($dirFile, PATHINFO_EXTENSION);
