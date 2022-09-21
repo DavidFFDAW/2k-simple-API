@@ -28,6 +28,10 @@ jobs:
       run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "mv /var/www/html/2k/api/v2/.env /var/www/html/2k/api/.env"
       
       
+    - name: Move .htaccess out
+      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "mv /var/www/html/2k/api/v2/.htaccess /var/www/html/2k/api/.htaccess"
+      
+      
     - name: Delete all files from API v2 folder
       run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/v2/ && rm -rf ./*"
       
@@ -38,6 +42,10 @@ jobs:
       
     - name: Move in .env back
       run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "mv /var/www/html/2k/api/.env /var/www/html/2k/api/v2/.env"
+      
+      
+    - name: Move in .htaccess back
+      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "mv /var/www/html/2k/api/.htaccess /var/www/html/2k/api/v2/.htaccess"
       
       
     - name: Delete .git unnecesary files
