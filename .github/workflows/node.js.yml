@@ -33,12 +33,8 @@ jobs:
       
       
     - name: Delete all files from API v2 folder
-      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/v2/ && rm -rf ./*" 
+      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/v2/ && rm -rf ..?* .[!.]* *" 
     
-    
-    - name: Delete all occult files from API v2 folder
-      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/v2/ && rm /var/www/html/2k/api/v2/.*"
-      
       
     - name: Clone repository in temporal folder
       run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/v2/ && git clone https://github.com/DavidFFDAW/2k-simple-API.git ./"
