@@ -17,6 +17,16 @@ class Images {
         $this->json = new ResponseJSON();
     }
 
+    private function getDirectorySize($path){
+        $bytestotal = 0;
+        $path = realpath($path);
+        if($path!==false && $path!='' && file_exists($path)){
+            foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){
+                $bytestotal += $object->getSize();
+            }
+        }
+        return $bytestotal;
+    }
 
     public function getImages(Request $request) {
         $images = scandir($this->directory);
@@ -35,7 +45,8 @@ class Images {
             $information['date'] = filemtime($dirFile);
             $information['type'] = mime_content_type($dirFile);
             $information['extension'] = pathinfo($dirFile, PATHINFO_EXTENSION);
-        
+            $information['directory_size'] = $this->getDirectorySize($this->directory);
+
             $finalImages[] = $information;
         }
 
