@@ -20,6 +20,7 @@ class FileUploader {
             'original_name' => $file['name'],
             'name' => $finalFilename.'.'.$ext,
             'size' => $file['size'],
+            'date' => filemtime($directory . $finalFilename . '.' . $ext),
             'image_size' => getimagesize($directory . $finalFilename . '.' . $ext),
             'type' => $file['type'],
             'extension' => $ext,

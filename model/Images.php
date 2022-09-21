@@ -50,7 +50,7 @@ class Images {
             $information['type'] = mime_content_type($dirFile);
             $information['extension'] = pathinfo($dirFile, PATHINFO_EXTENSION);
             
-            $finalImages['images'] = $information;
+            $finalImages['images'][] = $information;
             $finalImages['directory_size'] = number_format($this->bytesToMegabytes($this->getDirectorySize($this->directory)), 2).'MB';
         }
 
