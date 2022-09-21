@@ -32,6 +32,11 @@ class Routes {
             'method' => 'createImage',
             'method_type' => ['POST'],
         ),
+        '/images/delete' => array(
+            'model' => Images::class,
+            'method' => 'deleteImageByGET',
+            'method_type' => ['DELETE'],
+        ),
     );
 
     public static function getRoutes() {

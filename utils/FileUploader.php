@@ -4,7 +4,7 @@ class FileUploader {
     private static $image_ext = 'webp';
 
     private static function generateFileName($data) {
-        return md5(date('YmdHi') . $data);
+        return md5(date('YmdHis') . $data);
     }
     
     public static function uploadImage($directory, $file) {

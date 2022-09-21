@@ -8,8 +8,9 @@ class Router {
     private $endpoint = '';
 
     private function transformToEndpoint ($request_uri) {
-        $end = explode(API_DOMAIN, $request_uri);
-        return $end[1];
+        $wholeEndpoint = explode(API_DOMAIN, $request_uri);
+        $explodedByParameters = explode('?', $wholeEndpoint[1]);
+        return $explodedByParameters[0];
     }
 
     public function __construct(Request $request, User $userInstance) {

@@ -75,4 +75,9 @@ class Images {
         
         return $this->json->setResponseAndReturn(200, 'Succesful', 'OK', $finalResp);
     }
+
+
+    public function deleteImageByGET(Request $req) {
+        dd($req);
+    }
 }
