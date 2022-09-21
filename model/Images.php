@@ -78,6 +78,21 @@ class Images {
 
 
     public function deleteImageByGET(Request $req) {
-        dd($req);
+        $imageName = $req->params->img;
+
+        if (!isset($imageName) || empty($imageName))
+            return ResponseJSON::error(400, 'Bad Request: No image name found');
+
+        $imagePath = $this->directory . $imageName;
+
+        if (!file_exists($imagePath))
+            return ResponseJSON::error(404, 'Not Found: Image not found');
+        
+        $isDeleted = unlink($imagePath);
+
+        return $isDeleted 
+            ? $this->json->setResponseAndReturn(200, 'Succesful', 'OK', array('message' => 'Image deleted'))
+            : ResponseJSON::error(500, 'Internal Server Error: Image could not be deleted')
+        ;
     }
 }
