@@ -28,6 +28,10 @@ class Images {
         return $bytestotal;
     }
 
+    private function bytesToMegabytes($bytes) {
+        return $bytes / 1048576;
+    }
+
     public function getImages(Request $request) {
         $images = scandir($this->directory);
         $scanned = array_diff($images, array('.', '..'));
@@ -45,9 +49,9 @@ class Images {
             $information['date'] = filemtime($dirFile);
             $information['type'] = mime_content_type($dirFile);
             $information['extension'] = pathinfo($dirFile, PATHINFO_EXTENSION);
-            $information['directory_size'] = $this->getDirectorySize($this->directory);
-
+            
             $finalImages[] = $information;
+            $finalImages['directory_size'] = number_format($this->bytesToMegabytes($this->getDirectorySize($this->directory)), 2).'MB';
         }
 
         return $this->json->setResponseAndReturn(200, 'Succesful', 'OK', $finalImages);
