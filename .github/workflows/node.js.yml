@@ -23,11 +23,24 @@ jobs:
     - name: Check current directory content
       run: ls -a
       
+      
     - name: Move .env out
       run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/v2 && mv ./.env ../"
+      
+      
+    - name: Delete all files from API v2 folder
+      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/v2/ && rm -rf ./*"
+      
+      
     - name: Clone repository in temporal folder
       run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/v2/ && git clone https://github.com/DavidFFDAW/2k-simple-API.git ./"
+      
+      
     - name: Move in .env back
       run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/ && mv ./.env ./v2/"
+      
+      
     - name: Delete .git unnecesary files
       run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/v2/ && rm -rf .git"
+      
+      
