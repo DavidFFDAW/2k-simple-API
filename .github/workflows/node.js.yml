@@ -25,7 +25,7 @@ jobs:
       
       
     - name: Move .env out
-      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/v2 && mv ./.env ../"
+      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "mv /var/www/html/2k/api/v2/.env /var/www/html/2k/api/.env"
       
       
     - name: Delete all files from API v2 folder
@@ -37,7 +37,7 @@ jobs:
       
       
     - name: Move in .env back
-      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/ && mv ./.env ./v2/"
+      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "mv /var/www/html/2k/api/.env /var/www/html/2k/api/v2/.env"
       
       
     - name: Delete .git unnecesary files
