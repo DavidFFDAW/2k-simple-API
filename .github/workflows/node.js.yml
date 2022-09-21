@@ -1,0 +1,33 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Deployment
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Write file with private key
+      run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ../key.pem
+    - name: Change permissions to key.pem
+      run: chmod 400 ../key.pem
+    - name: Check current directory content
+      run: ls -a
+      
+    - name: Move .env out
+      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/v2 && mv ./.env ../"
+    - name: Clone repository in temporal folder
+      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/v2/ && git clone https://github.com/DavidFFDAW/2k-simple-API.git ./"
+    - name: Move in .env back
+      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/ && mv ./.env ./v2/"
+    - name: Delete .git unnecesary files
+      run: ssh -o StrictHostKeyChecking=no -i ../key.pem root@${{ secrets.SSH_HOST }} "cd /var/www/html/2k/api/v2/ && rm -rf .git"
