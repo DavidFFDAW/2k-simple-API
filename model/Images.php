@@ -51,8 +51,9 @@ class Images {
             $information['extension'] = pathinfo($dirFile, PATHINFO_EXTENSION);
             
             $finalImages['images'][] = $information;
-            $finalImages['directory_size'] = number_format($this->bytesToMegabytes($this->getDirectorySize($this->directory)), 2).'MB';
         }
+
+        $finalImages['directory_size'] = number_format($this->bytesToMegabytes($this->getDirectorySize($this->directory)), 2).'MB';
 
         return $this->json->setResponseAndReturn(200, 'Succesful', 'OK', $finalImages);
     }
