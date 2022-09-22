@@ -34,10 +34,8 @@ class Router {
 
         $model = new $currentRoute['model']();
         $method = $currentRoute['method'];
-        $middleware = $currentRoute['middleware'] ?? false;        
-
-        if (!method_exists($model, $method)) 
-            return ResponseJSON::error(500, 'Method not found');
+        $middleware = $currentRoute['middleware'] ?? false;     
+        $Controller = $currentRoute['controller'] ?? false;     
 
         if ($middleware) {
             $middleware = new $middleware();
@@ -46,6 +44,17 @@ class Router {
             if ($middleware->hasError()) return $middlewareResponse;
         }
 
-        return $model->$method($this->request);
+        if (!$Controller) {
+            if (!method_exists($model, $method)) 
+                return ResponseJSON::error(500, 'Model Method not found');
+            
+            return $model->$method($this->request);
+        }
+
+        $controller = new $Controller();
+        if (!method_exists($controller, $method)) 
+            return ResponseJSON::error(500, 'Controller Method not found');
+
+        return $controller->$method($this->request, $model);
     }
 }

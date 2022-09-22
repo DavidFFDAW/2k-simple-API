@@ -90,4 +90,9 @@ class User extends ModelModule {
         
         return $this->getStmtAssocOrFalse($stmt);
     }
+
+
+    public function test () {
+        return $this->json->setResponseAndReturn(200, 'Succesful', 'OK', 'test');
+    }
 }

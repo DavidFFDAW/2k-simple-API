@@ -37,6 +37,12 @@ class Routes {
             'method' => 'deleteImageByGET',
             'method_type' => ['DELETE'],
         ),
+        '/test/controller' => array(
+            'model' => User::class,
+            'method' => 'test',
+            'controller' => UserController::class,
+            'method_type' => ['GET'],
+        ),
     );
 
     public static function getRoutes() {
