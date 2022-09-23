@@ -26,9 +26,13 @@ function displayErrorsAndWarnings (bool $shouldDisplay) {
 }
 
 function load($dir) {
-    foreach ($dir as $file) {
+    foreach (scandir($dir) as $file) {
+        if ($file === 'loader.php') {
+            continue;
+        }
+        
         if (strpos($file, '.php') !== false) {
-            require_once $file;
+            require_once $dir . SP . $file;
         }
     }
 }
