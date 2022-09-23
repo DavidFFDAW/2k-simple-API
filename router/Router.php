@@ -21,24 +21,33 @@ class Router {
     }
 
     private function getCurrentRoute () {
-        return $this->routes[$this->endpoint] ?? false;
+        $routesByName = Routes::getPossibleRouteArray($this->endpoint);
+
+        if (count($routesByName) === 0) return false;
+        if (count($routesByName) === 1) return array_values($routesByName)[0];
+
+        $filtered = array_filter($routesByName, function ($routeConfig) {
+            return $routeConfig['method_type'] === $_SERVER['REQUEST_METHOD'];
+        });
+
+        return array_values($filtered)[0];
     }
 
     public function validateRoute () {
         $currentRoute = $this->getCurrentRoute();
-        
+
         if (!$currentRoute) return ResponseJSON::error(404, 'Route not found');
         
-        if (!in_array(trim($_SERVER['REQUEST_METHOD']), $currentRoute['method_type'])) 
+        if ($currentRoute['method_type'] !== $_SERVER['REQUEST_METHOD']) 
             return ResponseJSON::error(405, 'Method not allowed');
 
         $model = new $currentRoute['model']();
         $method = $currentRoute['method'];
-        $middleware = $currentRoute['middleware'] ?? false;     
+        $Middleware = $currentRoute['middleware'] ?? false;     
         $Controller = $currentRoute['controller'] ?? false;     
 
-        if ($middleware) {
-            $middleware = new $middleware();
+        if ($Middleware) {
+            $middleware = new $Middleware();
             $middlewareResponse = $middleware->execute($this->request, $this->user);
 
             if ($middleware->hasError()) return $middlewareResponse;

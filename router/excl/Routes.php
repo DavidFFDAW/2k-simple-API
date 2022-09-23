@@ -1,52 +1,67 @@
 <?php
 class Routes {
     private static $routes = array(
-        '/login' => array(
+        array(
+            'route' => '/login',
             'model' => User::class,
             'method' => 'login',
-            'method_type' => ['POST'],
+            'method_type' => 'POST',
         ),
-        '/register' => array(
+        array(
+            'route' => '/register',
             'model' => User::class,
             'method' => 'register',
-            'method_type' => ['POST'],
+            'method_type' => 'POST',
         ),
-        '/logout' => array(
+        array(
+            'route' => '/logout',
             'model' => User::class,
             'method' => 'logout',
-            'method_type' => ['POST'],
+            'method_type' => 'POST',
         ),
-        '/champions/get/reigns' => array(
+        array(
+            'route' => '/champions/get/reigns',
             'model' => Reigns::class,
             'method' => 'getReigns',
             'middleware' => AuthMiddleware::class,
-            'method_type' => ['GET'],
+            'method_type' => 'GET',
         ),
-        '/images' => array(
+        array(
+            'route' => '/images',
             'model' => Images::class,
             'method' => 'getImages',
-            'method_type' => ['GET'],
+            'method_type' => 'GET',
         ),
-        '/images/new' => array(
+        array(
+            'route' => '/images/new',
             'model' => Images::class,
             'method' => 'createImage',
-            'method_type' => ['POST'],
+            'method_type' => 'POST',
         ),
-        '/images/delete' => array(
+        array(
+            'route' => '/images/delete',
             'model' => Images::class,
             'method' => 'deleteImageByGET',
-            'method_type' => ['DELETE'],
+            'method_type' => 'DELETE',
         ),
-        '/test/controller' => array(
+        array(
+            'route' => '/test/controller',
             'model' => User::class,
             'method' => 'test',
             'controller' => UserController::class,
-            'method_type' => ['GET'],
+            'method_type' => 'GET',
         ),
     );
 
     public static function getRoutes() {
         return self::$routes;
+    }
+
+    public static function getPossibleRouteArray($endpoint) {
+
+        return array_filter(self::$routes, function ($routeConfig) use ($endpoint) {
+            return $routeConfig['route'] === $endpoint;
+        });
     }
 
     public function __toString()
