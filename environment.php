@@ -1,10 +1,9 @@
 <?php
 
-
-define('DEV', 0);
-define('PROD', 1);
-
-$env = PROD;
+if (!defined('DEV') && !defined('PROD')) {
+    define('DEV', 0);
+    define('PROD', 1);
+}
 
 function getEnvironmentValues ($isProd) {
     if ($isProd) return array(
