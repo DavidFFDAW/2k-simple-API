@@ -1,16 +1,22 @@
 <?php
 
+define('DEV', 0);
+define('PROD', 1);
 define('VERSION', '0.1.0');
-define('MAIN_PATH', (dirname(__FILE__).DIRECTORY_SEPARATOR));
-define('MAIN_DIR', (dirname(__DIR__).DIRECTORY_SEPARATOR));
+define('SP', DIRECTORY_SEPARATOR);
+define('MAIN_PATH', (dirname(__FILE__).SP));
+define('MAIN_DIR', (dirname(__DIR__).SP));
 
-require_once MAIN_PATH . DIRECTORY_SEPARATOR . 'environment.php';
-require_once MAIN_PATH . DIRECTORY_SEPARATOR . 'bootstrap.php';
-require_once MAIN_PATH . DIRECTORY_SEPARATOR . 'general-functions.php';
+$env = PROD;
+
+require_once MAIN_PATH . SP . 'environment.php';
+require_once MAIN_PATH . SP . 'bootstrap.php';
+require_once MAIN_PATH . SP . 'general-functions.php';
 
 API_headers();
+displayErrorsAndWarnings(!$env);
 
-require MAIN_PATH . DIRECTORY_SEPARATOR . 'loader.injector.php';
+require MAIN_PATH . SP . 'loader.injector.php';
 
 // Router
 $request = new Request();
