@@ -1,5 +1,5 @@
 <?php 
-require_once MAIN_PATH . 'router' . DIRECTORY_SEPARATOR . 'Routes.php';
+require_once MAIN_PATH . 'router' . SP . 'excl' . SP . 'Routes.php';
 
 class Router {
 
