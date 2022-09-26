@@ -28,8 +28,10 @@ class Images {
         return $bytestotal;
     }
 
-    private function bytesToMegabytes($bytes) {
-        return $bytes / 1048576;
+    private function formatFileOrDirSize($size) {
+        $units = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+        $power = $size > 0 ? floor(log($size, 1024)) : 0;
+        return number_format($size / pow(1024, $power), 2, '.', ',') . ' ' . $units[$power];
     }
 
     public function getImages(Request $request) {
@@ -53,7 +55,7 @@ class Images {
             $finalImages['images'][] = $information;
         }
 
-        $finalImages['directory_size'] = number_format($this->bytesToMegabytes($this->getDirectorySize($this->directory)), 2).'MB';
+        $finalImages['directory_size'] = $this->formatFileOrDirSize($this->getDirectorySize($this->directory));
 
         return $this->json->setResponseAndReturn(200, 'Succesful', 'OK', $finalImages);
     }
