@@ -1,5 +1,5 @@
 <?php
-class Reigns extends ModelModule {
+class Reigns extends DatabaseModel {
     public function __construct() {
         parent::__construct();
         $this->conn = $this->getConnection();

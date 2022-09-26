@@ -1,5 +1,5 @@
 <?php
-class User extends ModelModule {
+class User extends DatabaseModel {
     
     private static $instance = null;
 
