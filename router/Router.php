@@ -41,7 +41,7 @@ class Router {
         if ($currentRoute['method_type'] !== $_SERVER['REQUEST_METHOD']) 
             return ResponseJSON::error(405, 'Method not allowed');
 
-        $model = new $currentRoute['model']();
+        $model = isset($currentRoute['model']) ? $currentRoute['model']() : false;
         $method = $currentRoute['method'];
         $Middleware = $currentRoute['middleware'] ?? false;     
         $Controller = $currentRoute['controller'] ?? false;     
@@ -64,6 +64,9 @@ class Router {
         if (!method_exists($controller, $method)) 
             return ResponseJSON::error(500, 'Controller Method not found');
 
-        return $controller->$method($this->request, $model);
+        if ($model) {
+            return $controller->$method($this->request, $model);
+        }
+        return $controller->$method($this->request);
     }
 }
