@@ -20,6 +20,13 @@ class Routes {
             'method_type' => 'POST',
         ),
         array(
+            'route' => '/wrestlers/get',
+            'model' => wrestler::class,
+            'method' => 'getNotReleasedWrestlers',
+            'middleware' => AuthMiddleware::class,
+            'method_type' => 'GET',
+        ),
+        array(
             'route' => '/champions/get/reigns',
             'model' => Reigns::class,
             'method' => 'getReigns',
