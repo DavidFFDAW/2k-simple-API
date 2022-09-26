@@ -51,6 +51,18 @@ class Routes {
             'controller' => UserController::class,
             'method_type' => 'GET',
         ),
+        array(
+            'route' => '/teams/all/members',
+            'method' => 'getAllTeams',
+            'controller' => TeamController::class,
+            'method_type' => 'GET',
+        ),
+        array(
+            'route' => '/teams/names',
+            'method' => 'getTeamNames',
+            'controller' => TeamController::class,
+            'method_type' => 'GET',
+        ),
     );
 
     public static function getRoutes() {

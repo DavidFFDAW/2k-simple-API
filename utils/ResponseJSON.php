@@ -10,6 +10,15 @@ class ResponseJSON {
     
     }
 
+    public static function success($data, $key = 'data') {
+        return json_encode([
+            'status' => 'success',
+            'message' => 'Succesful',
+            'code' => 200,
+            $key => $data,
+        ]);
+    }
+
     private function setAPIResponseStatus($code, $message) {
         http_response_code($code);
         $protocol = $_SERVER['SERVER_PROTOCOL'];
