@@ -15,7 +15,7 @@ class TeamController {
         $totalTeams = $teams->getTeams();
         
         foreach ($totalTeams as &$team) {
-            $team['members'] = $wrestlerTeam->getTeamMembersFromTeamID($team['id']);         
+            $team['members'][] = $wrestlerTeam->getTeamMembersFromTeamID($team['id']);         
         }
 
         return ResponseJSON::success($totalTeams, 'teams');

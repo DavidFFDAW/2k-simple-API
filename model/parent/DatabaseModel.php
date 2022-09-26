@@ -24,6 +24,17 @@ class DatabaseModel {
         return $this->conn;
     }
 
+    protected function getStmtAssocArrayOrFalse(mysqli_stmt $stmt) {
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+
+        return false;
+    }
+
     protected function getStmtAssocOrFalse(mysqli_stmt $stmt) {
         $stmt->execute();
         $result = $stmt->get_result();
