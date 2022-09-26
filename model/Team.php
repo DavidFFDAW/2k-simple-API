@@ -6,7 +6,7 @@ class Team extends DatabaseModel {
     }
 
     public function getTeams () {
-        $sql = "SELECT * FROM teams";
+        $sql = "SELECT * FROM teams ORDER BY name ASC";
 
         $row = $this->conn->query($sql);
         $teams = $row->fetch_all(MYSQLI_ASSOC);
