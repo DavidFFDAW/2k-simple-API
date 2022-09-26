@@ -11,6 +11,6 @@ class wrestler extends DatabaseModel {
         $row = $this->conn->query($sql);
         $wrestlers = $row->fetch_all(MYSQLI_ASSOC);
 
-        return $wrestlers;
+        return ResponseJSON::success($wrestlers);
     }
 }
