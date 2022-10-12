@@ -83,10 +83,14 @@ class Images {
     public function updateImage (Request $req) {
         if (!isset($req->files) || empty($req->files))
             return ResponseJSON::error(400, 'Bad Request: No image(s) found');
+        try {
+            // dd_json($req->files[0]);
+            $object = FileUploader::updateCurrentImage($this->directory, $req->files[0], $req->body->name);
         
-        dd_json($req->files[0]);
-        $object = FileUploader::updateCurrentImage($this->directory, $req->files[0], $req->body->name);
-
+        } catch (Exception $e) {
+            return ResponseJSON::error(500, 'Custom error' , $e->getMessage());
+        }
+        
         $lastError = error_get_last();
 
         if (isset($lastError) || !empty($lastError)) {
@@ -94,6 +98,7 @@ class Images {
         }
 
         return $this->json->setResponseAndReturn(200, 'Succesful', 'OK', $object);
+        
     }
 
 
