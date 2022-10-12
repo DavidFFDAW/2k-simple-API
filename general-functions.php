@@ -8,6 +8,10 @@ function dd (...$vars) {
     exit;
 }
 
+function dd_json ($var) {
+    die(json_encode($var));
+}
+
 function generateTokenAPI ($passphrase) {
     $p1 = '$_'.bin2hex(random_bytes(16));
     $p2 = bin2hex(random_bytes(16));

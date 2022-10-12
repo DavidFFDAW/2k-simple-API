@@ -81,12 +81,10 @@ class Images {
 
 
     public function updateImage (Request $req) {
-        dd ($req);
-
         if (!isset($req->files) || empty($req->files))
             return ResponseJSON::error(400, 'Bad Request: No image(s) found');
         
-        $object = FileUploader::updateCurrentImage($this->directory, $req->files[0], $req->body);
+        $object = FileUploader::updateCurrentImage($this->directory, $req->files[0], $req->body->name);
 
         $lastError = error_get_last();
 
