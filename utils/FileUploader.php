@@ -11,7 +11,10 @@ class FileUploader {
     public static function updateCurrentImage($directory, $file, $filename) {
         $finalFilename = pathinfo($filename, PATHINFO_FILENAME);
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
-        $isMoved = move_uploaded_file($file['tmp_name'], $directory . $filename . '.' . $ext);
+
+        if (file_exists($filename)) unlink($filename);
+
+        $isMoved = move_uploaded_file($file['tmp_name'], $directory . $finalFilename . '.' . $ext);
 
         if (!$isMoved) {
             throw new Exception('Error while moving file');
