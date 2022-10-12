@@ -7,6 +7,30 @@ class FileUploader {
         return md5(date('YmdHis') . $data);
     }
     
+
+    public static function updateCurrentImage($directory, $file, $filename) {
+        $finalFilename = pathinfo($filename, PATHINFO_FILENAME);
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $isMoved = move_uploaded_file($file['tmp_name'], $directory . $filename . '.' . $ext);
+
+        if (!$isMoved) {
+            throw new Exception('Error while moving file');
+        }
+
+        return array(
+            'original_name' => $file['name'],
+            'name' => $finalFilename.'.'.$ext,
+            'size' => $file['size'],
+            'date' => filemtime($directory . $finalFilename . '.' . $ext),
+            'image_size' => getimagesize($directory . $finalFilename . '.' . $ext),
+            'type' => $file['type'],
+            'extension' => $ext,
+            'url' => IMAGES_URL . $finalFilename . '.' . $ext,
+        );
+
+    }
+    
+
     public static function uploadImage($directory, $file) {
         $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
         $finalFilename = self::generateFileName($file['name']);

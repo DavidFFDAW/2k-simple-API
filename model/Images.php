@@ -80,6 +80,24 @@ class Images {
     }
 
 
+    public function updateImage (Request $req) {
+        dd ($req);
+
+        if (!isset($req->files) || empty($req->files))
+            return ResponseJSON::error(400, 'Bad Request: No image(s) found');
+        
+        $object = FileUploader::updateCurrentImage($this->directory, $req->files[0], $req->body);
+
+        $lastError = error_get_last();
+
+        if (isset($lastError) || !empty($lastError)) {
+            return ResponseJSON::error(500, 'Internal Server Error: ' . $lastError['message']);
+        }
+
+        return $this->json->setResponseAndReturn(200, 'Succesful', 'OK', $object);
+    }
+
+
     public function deleteImageByGET(Request $req) {
         $imageName = $req->params->img;
 

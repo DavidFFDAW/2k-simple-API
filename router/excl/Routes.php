@@ -46,6 +46,12 @@ class Routes {
             'method_type' => 'POST',
         ),
         array(
+            'route' => '/image/update',
+            'model' => Images::class,
+            'method' => 'updateImage',
+            'method_type' => 'POST',
+        ),
+        array(
             'route' => '/images/delete',
             'model' => Images::class,
             'method' => 'deleteImageByGET',
