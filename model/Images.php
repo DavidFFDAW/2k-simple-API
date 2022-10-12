@@ -88,9 +88,9 @@ class Images {
             $object = FileUploader::updateCurrentImage($this->directory, $req->files[0], $req->body->name);
         
         } catch (Exception $e) {
-            return ResponseJSON::error(500, 'Custom error' , $e->getMessage());
+            return ResponseJSON::error(500, 'Custom error: '.$e->getMessage());
         }
-        
+
         $lastError = error_get_last();
 
         if (isset($lastError) || !empty($lastError)) {
