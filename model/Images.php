@@ -83,8 +83,9 @@ class Images {
     public function updateImage (Request $req) {
         if (!isset($req->files) || empty($req->files))
             return ResponseJSON::error(400, 'Bad Request: No image(s) found');
+        
         try {
-            // dd_json($req->files[0]);
+            dd_json(array_values($req->files)[0]);
             $object = FileUploader::updateCurrentImage($this->directory, $req->files[0], $req->body->name);
         
         } catch (Exception $e) {
