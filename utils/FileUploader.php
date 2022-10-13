@@ -12,9 +12,22 @@ class FileUploader {
         $finalFilename = pathinfo($filename, PATHINFO_FILENAME);
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-        if (file_exists($filename)) unlink($filename);
+        if (file_exists($filename)) {
+            $isDeleted = unlink($filename);
+
+            if (!$isDeleted) throw new Exception('Error deleting file');
+        }
+
 
         $isMoved = move_uploaded_file($file['tmp_name'], $directory . $finalFilename . '.' . $ext);
+
+        dd_json(array(
+            'isMoved' => $isMoved,
+            'filename_real' => $finalFilename . '.' . $ext,
+            'file' => $file,
+            'directory' => $directory,
+            'filename' => $filename,
+        ));
 
         if (!$isMoved) {
             throw new Exception('Error while moving file');
