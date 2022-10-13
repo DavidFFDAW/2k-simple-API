@@ -85,8 +85,8 @@ class Images {
             return ResponseJSON::error(400, 'Bad Request: No image(s) found');
         
         try {
-            dd_json(array_values($req->files)[0]);
-            $object = FileUploader::updateCurrentImage($this->directory, $req->files[0], $req->body->name);
+            $file = array_values($req->files)[0];
+            $object = FileUploader::updateCurrentImage($this->directory, $file, $req->body->name);
         
         } catch (Exception $e) {
             return ResponseJSON::error(500, 'Custom error: '.$e->getMessage());
