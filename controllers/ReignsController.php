@@ -1,21 +1,32 @@
 <?php 
 
 class ReignsController {
-    public function getTotalCurrentReigns (Request $req) {
-        $reigns = new Reigns();
-        $currentReigns = $reigns->getCurrentReigns($req);
-        // $currentTagTeamReigns = $reigns->getCurrentTagTeamReigns($req);
 
-        // $finalReigns = array();
+    private function addTotalsToReign(Reigns $reigns, &$currentReigns) {
         foreach ($currentReigns as &$reign) {
             $totalCounters = $reigns->getTotalDaysAndReignsNumbers(
                 $reign['wrestlerId'], 
                 $reign['championshipId']
             );
-            $reign['total_days'] = $totalCounters['total_days'];
-            $reign['total_reigns'] = $totalCounters['total_reigns'];
+            $reign['totalDays'] = $totalCounters['total_days'];
+            $reign['totalReigns'] = $totalCounters['total_reigns'];
         }
+    }
 
-        return ResponseJSON::success($currentReigns, 'reigns');
+
+    public function getTotalCurrentReigns (Request $req) {
+        $reigns = new Reigns();
+        $currentReigns = $reigns->getCurrentReigns($req);
+        $currentTagTeamReigns = $reigns->getCurrentTagTeamReigns($req);
+
+        $this->addTotalsToReign($reigns, $currentReigns);
+        $this->addTotalsToReign($reigns, $currentTagTeamReigns);
+
+        $singlesAndTagReigns = array(
+            'currentSingles' => $currentReigns,
+            'currentTagTeams' => $currentTagTeamReigns
+        );
+
+        return ResponseJSON::success($singlesAndTagReigns, 'reigns');
     }
 }

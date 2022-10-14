@@ -33,7 +33,7 @@ class Reigns extends DatabaseModel {
     }
 
     public function getCurrentReigns (Request $request) {
-        $sql = "SELECT c.name as championship_name, c.id as championshipId, w.id as wrestlerId, c.image as ch_img, r.id as reign_id, r.days as reign_days, c.brand as brand, w.name as name, w.image_name as image, w.overall as overall
+        $sql = "SELECT c.name as championship, c.id as championshipId, w.id as wrestlerId, c.image as championshipImage, r.id as reignId, r.days as reignDays, c.brand as brand, w.name as wrestlerName, w.image_name as wrestlerImage, w.overall as overall
         FROM championship_reigns r INNER JOIN wrestler w 
         ON r.wrestler_id = w.id INNER JOIN championship c ON r.championship_id = c.id
         WHERE r.current = 1 AND w.status != 'released' AND c.active = 1 AND c.tag = 0 ORDER BY days DESC";
@@ -42,9 +42,19 @@ class Reigns extends DatabaseModel {
         return $row->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getCurrentTagTeamReigns (Request $request) {
+        $sql = "SELECT c.name as championship, c.id as championshipId, w.id as wrestlerId, c.image as championshipImage, r.id as reignId, r.days as reignDays, c.brand as brand, w.name as wrestlerName, w.average as overall
+        FROM championship_reigns r INNER JOIN teams w 
+        ON r.wrestler_id = w.id INNER JOIN championship c ON r.championship_id = c.id
+        WHERE r.current = 1 AND c.active = 1 AND c.tag = 1 ORDER BY days DESC";
+
+        $row = $this->conn->query($sql);
+        return $row->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getTotalDaysAndReignsNumbers (int $wrestlerID, int $championshipID) {
         $sql = "SELECT COUNT(*) as total_reigns, SUM(days) as total_days FROM championship_reigns WHERE wrestler_id = $wrestlerID AND championship_id = $championshipID LIMIT 1";
         $row = $this->conn->query($sql);
-        return $row->fetch_all(MYSQLI_ASSOC);
+        return $row->fetch_assoc();
     }
 }
