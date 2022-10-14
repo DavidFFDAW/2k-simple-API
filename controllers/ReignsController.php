@@ -16,6 +16,6 @@ class ReignsController {
             $reign['total_reigns'] = $totalCounters['total_reigns'];
         }
 
-        return $currentReigns;
+        return ResponseJSON::success($currentReigns, 'reigns');
     }
 }
