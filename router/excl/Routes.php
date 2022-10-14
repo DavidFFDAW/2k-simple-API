@@ -29,7 +29,8 @@ class Routes {
         array(
             'route' => '/champions/get/reigns',
             'model' => Reigns::class,
-            'method' => 'getReigns',
+            'method' => 'getTotalCurrentReigns',
+            'controller' => ReignsController::class,
             'middleware' => AuthMiddleware::class,
             'method_type' => 'GET',
         ),
