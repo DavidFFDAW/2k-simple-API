@@ -94,7 +94,7 @@ class ReignsController {
         $championshipFinalReigns['brand'] = $championshipReigns[0]['brand'];
         $championshipFinalReigns['reigns'] = $finalReigns;
 
-        return ResponseJSON::success($championshipFinalReigns, 'reigns');
+        return ResponseJSON::success($championshipFinalReigns, 'data');
     }
 
 
