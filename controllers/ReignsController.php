@@ -29,4 +29,64 @@ class ReignsController {
 
         return ResponseJSON::success($singlesAndTagReigns, 'reigns');
     }
+
+
+    public function getSeparatedReignsForWrestlerAndChampionship(Request $request) {
+        $wrestlerID = $request->params->wrestler;
+        $championshipID = $request->params->championship;
+
+        if (!isset($wrestlerID) || !isset($championshipID)) {
+            return ResponseJSON::error(400, '`wrestler` or `championship` params are required');
+        }
+
+        $reigns = new Reigns();
+        $wrestlerChampionshipReigns = $reigns->getSeparatedReignsForWrestlerAndChampionship($wrestlerID, $championshipID);
+
+        $wrestlerReign = array();
+        $finalReigns = array();
+        
+        
+        foreach ($wrestlerChampionshipReigns as $reign) {
+            $finalReigns[] = array(
+                'days' => $reign['reignDays'],
+                'start' => $reign['wonDate'],
+                'end' => $reign['lostDate'],
+            );
+        }
+        
+        $wrestlerReign['championship'] = $wrestlerChampionshipReigns[0]['championship'];
+        $wrestlerReign['championshipId'] = $wrestlerChampionshipReigns[0]['championshipId'];
+        $wrestlerReign['wrestlerId'] = $wrestlerChampionshipReigns[0]['wrestlerId'];
+        $wrestlerReign['championshipImage'] = $wrestlerChampionshipReigns[0]['championshipImage'];
+        $wrestlerReign['brand'] = $wrestlerChampionshipReigns[0]['brand'];
+        $wrestlerReign['wrestlerName'] = $wrestlerChampionshipReigns[0]['wrestlerName'];
+        $wrestlerReign['wrestlerImage'] = $wrestlerChampionshipReigns[0]['wrestlerImage'];
+        $wrestlerReign['reigns'] = $finalReigns;
+        
+        return ResponseJSON::success($wrestlerReign, 'data');
+    }
+
+
+    public function getAllChampionshipReigns(Request $req) {
+        if (!isset($req->params->championship)) {
+            return ResponseJSON::error(400, '`championship` param is required');
+        }
+
+        $reigns = new Reigns();
+        $championshipReigns = $reigns->getAllChampionshipReigns($req->params->championship);
+
+        return ResponseJSON::success($championshipReigns, 'reigns');
+    }
+
+
+    public function getAllWrestlerReigns (Request $r) {
+        if (!isset($r->params->wrestler)) {
+            return ResponseJSON::error(400, '`wrestler` param is required');
+        }
+
+        $reigns = new Reigns();
+        $wrestlerReigns = $reigns->getAllWrestlerReigns($r->params->wrestler);
+
+        return ResponseJSON::success($wrestlerReigns, 'reigns');
+    }
 }
