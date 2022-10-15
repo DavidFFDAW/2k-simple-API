@@ -47,6 +47,7 @@ class ReignsController {
         
         foreach ($wrestlerChampionshipReigns as $reign) {
             $finalReigns[] = array(
+                'isCurrent' => $reign['isCurrent'],
                 'days' => $reign['reignDays'],
                 'start' => $reign['wonDate'],
                 'end' => $reign['lostDate'],
@@ -93,6 +94,7 @@ class ReignsController {
                 'championship' => $reign['championship'],
                 'championshipId' => $reign['championshipId'],
                 'championshipImage' => $reign['championshipImage'],
+                'isCurrent' => $reign['isCurrent'],
                 'brand' => $reign['brand'],
                 'days' => $reign['reignDays'],
                 'start' => $reign['wonDate'],

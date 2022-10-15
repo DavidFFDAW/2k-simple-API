@@ -63,7 +63,7 @@ class Reigns extends DatabaseModel {
     }
 
     public function getSeparatedReignsForWrestlerAndChampionship(int $wrestlerID, int $championshipID) {
-        $sql = "SELECT r.won_date as wonDate, r.lost_date as lostDate, c.name as championship, c.id as championshipId, w.id as wrestlerId, c.image as championshipImage, r.id as reignId, r.days as reignDays, c.brand as brand, w.name as wrestlerName, w.image_name as wrestlerImage, w.overall as overall
+        $sql = "SELECT c.current as is_current, r.won_date as wonDate, r.lost_date as lostDate, c.name as championship, c.id as championshipId, w.id as wrestlerId, c.image as championshipImage, r.id as reignId, r.days as reignDays, c.brand as brand, w.name as wrestlerName, w.image_name as wrestlerImage, w.overall as overall
         FROM championship_reigns r INNER JOIN wrestler w 
         ON r.wrestler_id = w.id INNER JOIN championship c ON r.championship_id = c.id
         WHERE c.tag = 0 AND r.wrestler_id = $wrestlerID AND r.championship_id = $championshipID ORDER BY won_date ASC";
@@ -73,7 +73,7 @@ class Reigns extends DatabaseModel {
     }
 
     public function getAllChampionshipReigns(int $championshipID) {
-        $sql = "SELECT r.won_date as wonDate, r.lost_date as lostDate, c.name as championship, c.id as championshipId, w.id as wrestlerId, c.image as championshipImage, r.id as reignId, r.days as reignDays, c.brand as brand, w.name as wrestlerName, w.image_name as wrestlerImage, w.overall as overall
+        $sql = "SELECT c.current as is_current, r.won_date as wonDate, r.lost_date as lostDate, c.name as championship, c.id as championshipId, w.id as wrestlerId, c.image as championshipImage, r.id as reignId, r.days as reignDays, c.brand as brand, w.name as wrestlerName, w.image_name as wrestlerImage, w.overall as overall
         FROM championship_reigns r INNER JOIN wrestler w 
         ON r.wrestler_id = w.id INNER JOIN championship c ON r.championship_id = c.id
         WHERE c.tag = 0 AND r.championship_id = $championshipID ORDER BY won_date ASC";
@@ -83,7 +83,7 @@ class Reigns extends DatabaseModel {
     }
 
     public function getAllWrestlerReigns (int $wrestlerID) {
-        $sql = "SELECT r.won_date as wonDate, r.lost_date as lostDate, c.name as championship, c.id as championshipId, w.id as wrestlerId, c.image as championshipImage, r.id as reignId, r.days as reignDays, c.brand as brand, w.name as wrestlerName, w.image_name as wrestlerImage, w.overall as overall
+        $sql = "SELECT c.current as isCurrent, r.won_date as wonDate, r.lost_date as lostDate, c.name as championship, c.id as championshipId, w.id as wrestlerId, c.image as championshipImage, r.id as reignId, r.days as reignDays, c.brand as brand, w.name as wrestlerName, w.image_name as wrestlerImage, w.overall as overall
         FROM championship_reigns r INNER JOIN wrestler w 
         ON r.wrestler_id = w.id INNER JOIN championship c ON r.championship_id = c.id
         WHERE c.tag = 0 AND r.wrestler_id = $wrestlerID ORDER BY won_date ASC";
