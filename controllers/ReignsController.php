@@ -45,7 +45,6 @@ class ReignsController {
         $wrestlerReign = array();
         $finalReigns = array();
         
-        
         foreach ($wrestlerChampionshipReigns as $reign) {
             $finalReigns[] = array(
                 'days' => $reign['reignDays'],
@@ -84,9 +83,28 @@ class ReignsController {
             return ResponseJSON::error(400, '`wrestler` param is required');
         }
 
+        $wrestlerReign = array();
         $reigns = new Reigns();
         $wrestlerReigns = $reigns->getAllWrestlerReigns($r->params->wrestler);
 
-        return ResponseJSON::success($wrestlerReigns, 'reigns');
+        
+        foreach ($wrestlerReigns as $reign) {
+            $finalReigns[] = array(
+                'championship' => $reign['championship'],
+                'championshipId' => $reign['championshipId'],
+                'championshipImage' => $reign['championshipImage'],
+                'brand' => $reign['brand'],
+                'days' => $reign['reignDays'],
+                'start' => $reign['wonDate'],
+                'end' => $reign['lostDate'],
+            );
+        }
+        
+        $wrestlerReign['wrestlerId'] = $wrestlerReigns[0]['wrestlerId'];
+        $wrestlerReign['wrestlerName'] = $wrestlerReigns[0]['wrestlerName'];
+        $wrestlerReign['wrestlerImage'] = $wrestlerReigns[0]['wrestlerImage'];
+        $wrestlerReign['reigns'] = $finalReigns;
+
+        return ResponseJSON::success($wrestlerReign, 'reigns');
     }
 }
