@@ -105,6 +105,6 @@ class ReignsController {
         $wrestlerReign['wrestlerImage'] = $wrestlerReigns[0]['wrestlerImage'];
         $wrestlerReign['reigns'] = $finalReigns;
 
-        return ResponseJSON::success($wrestlerReign, 'reigns');
+        return ResponseJSON::success($wrestlerReign, 'data');
     }
 }
