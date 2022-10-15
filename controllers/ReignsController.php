@@ -72,10 +72,29 @@ class ReignsController {
             return ResponseJSON::error(400, '`championship` param is required');
         }
 
+        $championshipFinalReigns = array();
         $reigns = new Reigns();
         $championshipReigns = $reigns->getAllChampionshipReigns($req->params->championship);
 
-        return ResponseJSON::success($championshipReigns, 'reigns');
+        foreach ($championshipReigns as $reign) {
+            $finalReigns[] = array(
+                'wrestlerId' => $reign['wrestlerId'],
+                'wrestlerName' => $reign['wrestlerName'],
+                'wrestlerImage' => $reign['wrestlerImage'],
+                'isCurrent' => $reign['isCurrent'],
+                'days' => $reign['reignDays'],
+                'start' => $reign['wonDate'],
+                'end' => $reign['lostDate'],
+            );
+        }
+        
+        $championshipFinalReigns['championship'] = $championshipReigns[0]['championship'];
+        $championshipFinalReigns['championshipId'] = $championshipReigns[0]['championshipId'];
+        $championshipFinalReigns['championshipImage'] = $championshipReigns[0]['championshipImage'];
+        $championshipFinalReigns['brand'] = $championshipReigns[0]['brand'];
+        $championshipFinalReigns['reigns'] = $finalReigns;
+
+        return ResponseJSON::success($championshipFinalReigns, 'reigns');
     }
 
 
