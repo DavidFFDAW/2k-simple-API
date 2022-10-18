@@ -14,12 +14,6 @@ class Routes {
             'method_type' => 'POST',
         ),
         array(
-            'route' => '/logout',
-            'model' => User::class,
-            'method' => 'logout',
-            'method_type' => 'POST',
-        ),
-        array(
             'route' => '/wrestlers/get',
             'model' => wrestler::class,
             'method' => 'getNotReleasedWrestlers',
