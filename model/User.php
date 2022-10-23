@@ -51,7 +51,12 @@ class User extends DatabaseModel {
 
         if (!$userData['api_token']) return ResponseJSON::error(401, 'Not available token. Register to use the API :)');
         
-        return $this->json->setResponseAndReturn(200, 'Succesful login', 'OK', $userData['api_token'], 'token');
+        // return $this->json->setResponseAndReturn(200, 'Succesful login', 'OK', $userData['api_token'], 'token');
+        return ResponseJSON::success(array(
+            'token' => $userData['api_token'],
+            'username' => $userData['username'],
+            'email' => $userData['email'],
+        ), 'user');
     }
 
 
