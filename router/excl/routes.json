@@ -1,0 +1,104 @@
+[
+    {
+        "route": "/login",
+        "model": "User",
+        "method": "login",
+        "method_type": "POST"
+    },
+    {
+        "route": "/register",
+        "model": "User",
+        "method": "register",
+        "method_type": "POST"
+    },
+    {
+        "route": "/wrestlers/get",
+        "model": "wrestler",
+        "method": "getNotReleasedWrestlers",
+        "middleware": "AuthMiddleware",
+        "method_type": "GET"
+    },
+    {
+        "route": "/champions/get/reigns",
+        "model": "Reigns",
+        "method": "getTotalCurrentReigns",
+        "controller": "ReignsController",
+        "middleware": "AuthMiddleware",
+        "method_type": "GET"
+    },
+    {
+        "route": "/champions/get/reigns/of/wrestler/championship",
+        "model": "Reigns",
+        "method": "getSeparatedReignsForWrestlerAndChampionship",
+        "controller": "ReignsController",
+        "middleware": "AuthMiddleware",
+        "method_type": "GET"
+    },
+    {
+        "route": "/champions/get/reigns/of/championship",
+        "model": "Reigns",
+        "method": "getAllChampionshipReigns",
+        "controller": "ReignsController",
+        "middleware": "AuthMiddleware",
+        "method_type": "GET"
+    },
+    {
+        "route": "/champions/get/reigns/of/wrestler",
+        "model": "Reigns",
+        "method": "getAllWrestlerReigns",
+        "controller": "ReignsController",
+        "middleware": "AuthMiddleware",
+        "method_type": "GET"
+    },
+    {
+        "route": "/images",
+        "model": "Images",
+        "method": "getImages",
+        "method_type": "GET"
+    },
+    {
+        "route": "/images/new",
+        "model": "Images",
+        "method": "createImage",
+        "method_type": "POST"
+    },
+    {
+        "route": "/image/update",
+        "model": "Images",
+        "method": "updateImage",
+        "method_type": "POST"
+    },
+    {
+        "route": "/images/delete",
+        "model": "Images",
+        "method": "deleteImageByGET",
+        "method_type": "DELETE"
+    },
+    {
+        "route": "/test/controller",
+        "model": "User",
+        "method": "test",
+        "controller": "UserController",
+        "method_type": "GET"
+    },
+    {
+        "route": "/teams/all/members",
+        "method": "getAllTeams",
+        "controller": "TeamController",
+        "method_type": "GET"
+    },
+    {
+        "route": "/teams/names",
+        "method": "getTeamNames",
+        "controller": "TeamController",
+        "method_type": "GET"
+    },
+    {
+        "route": "/add/your/route/here",
+        "model": "NewsReport",
+        "method": "index",
+        "controller": "NewsReportController",
+        "middleware": "AuthMiddleware",
+        "method_type": "GET"
+    }
+]
