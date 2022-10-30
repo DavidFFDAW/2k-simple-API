@@ -94,9 +94,9 @@
         "method_type": "GET"
     },
     {
-        "route": "/add/your/route/here",
+        "route": "/news/report",
         "model": "NewsReport",
-        "method": "index",
+        "method": "getReports",
         "controller": "NewsReportController",
         "middleware": "AuthMiddleware",
         "method_type": "GET"

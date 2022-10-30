@@ -2,6 +2,7 @@
 
 class DatabaseModel {
 
+    private static $connectionInstance = null;
     private $db_host = '';
     private $db_user = '';
     private $db_pwsd = '';
@@ -20,8 +21,19 @@ class DatabaseModel {
         $this->conn->set_charset('utf8');
     }
 
-    protected function getConnection () {
+    public static function getInstance() {
+        if (!isset(self::$connectionInstance)) {
+            self::$connectionInstance = new DatabaseModel();
+        }
+        return self::$connectionInstance;
+    }
+
+    private function _getConnection() {
         return $this->conn;
+    }
+
+    protected function getConnection () {
+        return self::getInstance()->_getConnection();
     }
 
     protected function getStmtAssocArrayOrFalse(mysqli_stmt $stmt) {
