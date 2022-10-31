@@ -2,7 +2,7 @@
 class NewsReportController {
     
     public function getReports (Request $req) {
-        if (isset($req->params['id'])) {
+        if (isset($req->params->id)) {
             return $this->getReportByID($req);
         }
 
@@ -11,10 +11,10 @@ class NewsReportController {
     }
 
     public function getReportByID (Request $req) {
-        $report = NewsReport::find($req->params['id']);
+        $report = NewsReport::find($req->params->id);
         if (!$report) return ResponseJSON::error(404, 'Report not found');
 
-        return ResponseJSON::success($report, 'news');
+        return ResponseJSON::success($report, 'report');
     }
 
     public function createNewReport(Request $req) {
