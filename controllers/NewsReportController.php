@@ -2,8 +2,11 @@
 class NewsReportController {
     
     public function getReports (Request $req) {
+        if (isset($req->params['id'])) {
+            return $this->getReportByID($req);
+        }
+
         $reports = NewsReport::findAll();
-        // dd($reports);
         return ResponseJSON::success($reports, 'news');
     }
 
