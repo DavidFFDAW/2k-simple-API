@@ -1,5 +1,7 @@
 <?php
 
+use LDAP\Result;
+
 class TeamController {
 
     public function getTeamNames (Request $rq) {
@@ -20,5 +22,20 @@ class TeamController {
         }
 
         return ResponseJSON::success($totalTeams, 'teams');
+    }
+
+    public function getTeamDetailsByID(Request $req) {
+        $teamID = $_GET['id'];
+        if (!isset($teamID)) {
+            return ResponseJSON::error(401, 'No team ID provided');
+        }
+
+        // $team = new Team();
+        $wrestlerTeam = new WrestlerTeam();
+        // $teamDetails = $team->getTeamDetailsByID($teamID);
+        $teamDetails['members'] = $wrestlerTeam->getTeamMembersFromTeamID($teamID);
+        $teamDetails['count'] = count($teamDetails['members']);
+
+        return ResponseJSON::success($teamDetails, 'team');
     }
 }

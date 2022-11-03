@@ -13,4 +13,16 @@ class Team extends DatabaseModel {
         
         return $teams;
     }
+
+    public function getTeamDetailsByID ($teamID) {
+        $sql = "SELECT * FROM teams WHERE id = ?";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param('i', $teamID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $team = $result->fetch_assoc();
+
+        return $team;
+    }
 }
