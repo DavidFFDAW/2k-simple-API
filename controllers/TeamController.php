@@ -25,7 +25,7 @@ class TeamController {
     }
 
     public function getTeamDetailsByID(Request $req) {
-        $teamID = $_GET['id'];
+        $teamID = $req->params->id;
         if (!isset($teamID)) {
             return ResponseJSON::error(401, 'No team ID provided');
         }

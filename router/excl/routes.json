@@ -88,6 +88,12 @@
         "method_type": "GET"
     },
     {
+        "route": "/single/team/details",
+        "method": "getTeamDetailsByID",
+        "controller": "TeamController",
+        "method_type": "GET"
+    },
+    {
         "route": "/teams/names",
         "method": "getTeamNames",
         "controller": "TeamController",
