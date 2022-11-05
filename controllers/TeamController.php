@@ -1,10 +1,11 @@
 <?php
 
-use LDAP\Result;
-
 class TeamController {
 
-    public function getTeamNames (Request $rq) {
+    public function getTeam (Request $rq) {
+        if (isset($rq->params->id)) {
+            return $this->getTeamDetailsByID($rq);
+        }
         $teams = new Team();
         $teamNames = $teams->getTeams();
 
@@ -26,13 +27,14 @@ class TeamController {
 
     public function getTeamDetailsByID(Request $req) {
         $teamID = $req->params->id;
+        
         if (!isset($teamID)) {
             return ResponseJSON::error(401, 'No team ID provided');
         }
 
-        // $team = new Team();
+        $team = new Team();
         $wrestlerTeam = new WrestlerTeam();
-        // $teamDetails = $team->getTeamDetailsByID($teamID);
+        $teamDetails = $team->getTeamDetailsByID($teamID);
         $teamDetails['members'] = $wrestlerTeam->getTeamMembersFromTeamID($teamID);
         $teamDetails['count'] = count($teamDetails['members']);
 

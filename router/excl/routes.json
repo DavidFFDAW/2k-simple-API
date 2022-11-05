@@ -82,20 +82,8 @@
         "method_type": "GET"
     },
     {
-        "route": "/teams/all/members",
-        "method": "getAllTeams",
-        "controller": "TeamController",
-        "method_type": "GET"
-    },
-    {
-        "route": "/single/team/details",
-        "method": "getTeamDetailsByID",
-        "controller": "TeamController",
-        "method_type": "GET"
-    },
-    {
-        "route": "/teams/names",
-        "method": "getTeamNames",
+        "route": "/teams",
+        "method": "getTeam",
         "controller": "TeamController",
         "method_type": "GET"
     },

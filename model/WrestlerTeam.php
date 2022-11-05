@@ -6,7 +6,7 @@ class WrestlerTeam extends DatabaseModel {
     }
 
     public function getTeamMembersFromTeamID (int $teamID) {
-        $sql = "SELECT w.id, w.name, w.brand, w.status, w.sex FROM wrestler_team wt INNER JOIN wrestler w ON w.id = wt.wrestler_id WHERE wt.team_id = ? ORDER BY w.name ASC";
+        $sql = "SELECT w.id, w.name, w.image_name, w.brand, w.status, w.sex FROM wrestler_team wt INNER JOIN wrestler w ON w.id = wt.wrestler_id WHERE wt.team_id = ? ORDER BY w.name ASC";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('i', $teamID);
         
