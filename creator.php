@@ -38,15 +38,32 @@ function createModel ($name) {
     $modelFile = $modelDir . $name . '.php';
 
     if (!file_exists($modelFile)) {
-        $modelContent = "<?php
+        $modelContent = '<?php
         
-class $name extends DatabaseModel {
+class '.$name.' extends DatabaseModel implements ModelInterface {
 
-    public function __construct() {
-        parent::__construct();
-        \$this->conn = \$this->getConnection();
+    private static $tableN = "' . strtolower($name) . 's";
+    private static $neededField = [
+        "name",
+        // ...,
+    ];
+
+    public function __construct($'. strtolower($name). ') {
+        $this->id = $'. strtolower($name). '["id"];
+
     }
-}";
+
+    public static function getRequiredFields() {
+        return self::$neededField;
+    }
+
+    public static function findAll() { }
+    public static function find(int $id) { }
+    public static function create($data): bool {return true; }
+    public function update($data): bool { return true; }
+    public function delete(): bool { return true; }  
+}              
+        ';
         file_put_contents($modelFile, $modelContent);
         echo "Model created successfully!$end";
     } else {
