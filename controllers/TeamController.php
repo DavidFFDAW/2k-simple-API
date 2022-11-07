@@ -46,17 +46,11 @@ class TeamController {
         $team = new Team();
         $wrestlerTeam = new WrestlerTeam();
 
-        $name = $req->params->name;
-        $brand = $req->params->brand;
-        $average = $req->params->average;
-        $members = $req->params->members;
 
-        dd_json(array(
-            'name' => $name,
-            'brand' => $brand,
-            'average' => $average,
-            'members' => $members
-        ));
+        $name = $req->body->name;
+        $brand = $req->body->brand;
+        $average = $req->body->average;
+        $members = $req->body->members;
 
         $teamID = $team->createTeam($name, $brand, $average);
         $hasCreated = $wrestlerTeam->createTeamMembers($teamID, $members);
