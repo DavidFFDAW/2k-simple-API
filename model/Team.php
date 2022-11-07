@@ -25,4 +25,16 @@ class Team extends DatabaseModel {
 
         return $team;
     }
+
+    public function createTeam ($teamName, $brandID, $average): int {
+        $sql = "INSERT INTO teams (name, brand, average) VALUES (?, ?, ?)";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param('sii', $teamName, $brandID, $average);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $result->fetch_assoc();
+        
+        return $this->conn->insert_id;
+    }
 }

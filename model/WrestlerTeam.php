@@ -14,4 +14,22 @@ class WrestlerTeam extends DatabaseModel {
 
         return $totalMembers;
     }
+
+    public function createTeamMembers (int $teamID, array $members): bool {
+        $tmp = [];
+        $sql = "INSERT INTO wrestler_team (team_id, wrestler_id) VALUES ";
+        
+        foreach ($members as $member) {
+            $tmp[] = "($teamID, $member)";
+        }
+
+        $sql .= implode(', ', $tmp);
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $result->fetch_assoc();
+        $inserted = $this->conn->insert_id;
+        
+        return $inserted;
+    }
 }

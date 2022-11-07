@@ -88,6 +88,12 @@
         "method_type": "GET"
     },
     {
+        "route": "/teams/new",
+        "method": "createNewTeam",
+        "controller": "TeamController",
+        "method_type": "POST"
+    },
+    {
         "route": "/news/report",
         "model": "NewsReport",
         "method": "getReports",

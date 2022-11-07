@@ -32,7 +32,6 @@ class TeamController {
             return ResponseJSON::error(401, 'No team ID provided');
         }
 
-        // dd(Brand::find((int) 1));
         $team = new Team();
         $wrestlerTeam = new WrestlerTeam();
         $teamDetails = $team->getTeamDetailsByID($teamID);
@@ -41,5 +40,30 @@ class TeamController {
         $teamDetails['brand'] = Brand::find((int) $teamDetails['brand']);
 
         return ResponseJSON::success($teamDetails, 'team');
+    }
+
+    public function createNewTeam(Request $req) {
+        $team = new Team();
+        $wrestlerTeam = new WrestlerTeam();
+
+        $name = $req->params->name;
+        $brand = $req->params->brand;
+        $average = $req->params->average;
+        $members = $req->params->members;
+
+        dd_json(array(
+            'name' => $name,
+            'brand' => $brand,
+            'average' => $average,
+            'members' => $members
+        ));
+
+        $teamID = $team->createTeam($name, $brand, $average);
+        $hasCreated = $wrestlerTeam->createTeamMembers($teamID, $members);
+
+        return $hasCreated 
+            ? ResponseJSON::success($team, 'team') 
+            : ResponseJSON::error(500, 'Could not create team')
+        ;
     }
 }
