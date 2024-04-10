@@ -1,56 +1,5 @@
 [
     {
-        "route": "/login",
-        "model": "User",
-        "method": "login",
-        "method_type": "POST"
-    },
-    {
-        "route": "/register",
-        "model": "User",
-        "method": "register",
-        "method_type": "POST"
-    },
-    {
-        "route": "/wrestlers/get",
-        "model": "wrestler",
-        "method": "getNotReleasedWrestlers",
-        "middleware": "AuthMiddleware",
-        "method_type": "GET"
-    },
-    {
-        "route": "/champions/get/reigns",
-        "model": "Reigns",
-        "method": "getTotalCurrentReigns",
-        "controller": "ReignsController",
-        "middleware": "AuthMiddleware",
-        "method_type": "GET"
-    },
-    {
-        "route": "/champions/get/reigns/of/wrestler/championship",
-        "model": "Reigns",
-        "method": "getSeparatedReignsForWrestlerAndChampionship",
-        "controller": "ReignsController",
-        "middleware": "AuthMiddleware",
-        "method_type": "GET"
-    },
-    {
-        "route": "/champions/get/reigns/of/championship",
-        "model": "Reigns",
-        "method": "getAllChampionshipReigns",
-        "controller": "ReignsController",
-        "middleware": "AuthMiddleware",
-        "method_type": "GET"
-    },
-    {
-        "route": "/champions/get/reigns/of/wrestler",
-        "model": "Reigns",
-        "method": "getAllWrestlerReigns",
-        "controller": "ReignsController",
-        "middleware": "AuthMiddleware",
-        "method_type": "GET"
-    },
-    {
         "route": "/images",
         "model": "Images",
         "method": "getImages",

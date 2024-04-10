@@ -1,14 +1,17 @@
 <?php
 
-class FileUploader {
+class FileUploader
+{
     private static $image_ext = 'webp';
 
-    private static function generateFileName($data) {
+    private static function generateFileName($data)
+    {
         return md5(date('YmdHis') . $data);
     }
-    
 
-    public static function updateCurrentImage($directory, $file, $filename) {
+
+    public static function updateCurrentImage($directory, $file, $filename)
+    {
         $finalFilename = pathinfo($filename, PATHINFO_FILENAME);
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
@@ -26,7 +29,7 @@ class FileUploader {
 
         return array(
             'original_name' => $file['name'],
-            'name' => $finalFilename.'.'.$ext,
+            'name' => $finalFilename . '.' . $ext,
             'size' => $file['size'],
             'date' => filemtime($directory . $finalFilename . '.' . $ext),
             'image_size' => getimagesize($directory . $finalFilename . '.' . $ext),
@@ -34,13 +37,17 @@ class FileUploader {
             'extension' => $ext,
             'url' => IMAGES_URL . $finalFilename . '.' . $ext,
         );
-
     }
-    
 
-    public static function uploadImage($directory, $file) {
+
+    public static function uploadImage($directory, $file)
+    {
+        $isCreateWithName = isset($_GET['withName']);
         $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $finalFilename = self::generateFileName($file['name']);
+        $finalFilename = $isCreateWithName
+            ? $file['name']
+            : self::generateFileName($file['name']);
+
         $isMoved = move_uploaded_file($file['tmp_name'], $directory . $finalFilename . '.' . $ext);
 
         if (!$isMoved) {
@@ -49,7 +56,7 @@ class FileUploader {
 
         return array(
             'original_name' => $file['name'],
-            'name' => $finalFilename.'.'.$ext,
+            'name' => $finalFilename . '.' . $ext,
             'size' => $file['size'],
             'date' => filemtime($directory . $finalFilename . '.' . $ext),
             'image_size' => getimagesize($directory . $finalFilename . '.' . $ext),

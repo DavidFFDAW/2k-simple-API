@@ -1,57 +1,64 @@
 <?php
 
-class Images {
+class Images
+{
     private $directory = '';
     private static $instance = null;
+    private $json = null;
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (!isset(self::$instance)) {
-                self::$instance = new User();
+            self::$instance = new User();
         }
         return self::$instance;
     }
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->directory = MAIN_DIR . '../images/';
         $this->json = new ResponseJSON();
     }
 
-    private function getDirectorySize($path){
+    private function getDirectorySize($path)
+    {
         $bytestotal = 0;
         $path = realpath($path);
-        if($path!==false && $path!='' && file_exists($path)){
-            foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){
+        if ($path !== false && $path != '' && file_exists($path)) {
+            foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object) {
                 $bytestotal += $object->getSize();
             }
         }
         return $bytestotal;
     }
 
-    private function formatFileOrDirSize($size) {
-        $units = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+    private function formatFileOrDirSize($size)
+    {
+        $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
         $power = $size > 0 ? floor(log($size, 1024)) : 0;
         return number_format($size / pow(1024, $power), 2, '.', ',') . ' ' . $units[$power];
     }
 
-    public function getImages(Request $request) {
+    public function getImages(Request $request)
+    {
         $images = scandir($this->directory);
         $scanned = array_diff($images, array('.', '..'));
         $finalImages = array();
-        
+
         foreach ($scanned as $file) {
             $dirFile = $this->directory . $file;
             if (!is_file($dirFile)) continue;
 
             $information = [];
-            $information['url'] = IMAGES_URL.$file;
+            $information['url'] = IMAGES_URL . $file;
             $information['name'] = $file;
             $information['size'] = filesize($dirFile);
             $information['image_size'] = getimagesize($dirFile);
             $information['date'] = filemtime($dirFile);
             $information['type'] = mime_content_type($dirFile);
             $information['extension'] = pathinfo($dirFile, PATHINFO_EXTENSION);
-            
+
             $finalImages['images'][] = $information;
         }
 
@@ -60,11 +67,16 @@ class Images {
         return $this->json->setResponseAndReturn(200, 'Succesful', 'OK', $finalImages);
     }
 
-    
-    public function createImage(Request $request) {
+
+    public function createImage(Request $request)
+    {
         $finalResp = array();
         if (!isset($request->files) || empty($request->files))
             return ResponseJSON::error(400, 'Bad Request: No image(s) found');
+
+        $isFileDelete = isset($_GET['fileToDelete']) && !empty($_GET['fileToDelete']);
+        $imagePath = $this->directory . trim($_GET['fileToDelete']);
+        if ($isFileDelete && file_exists($imagePath)) unlink($imagePath);
 
         foreach ($request->files as $file) {
             $finalResp[] = FileUploader::uploadImage($this->directory, $file);
@@ -75,21 +87,21 @@ class Images {
         if (isset($lastError) || !empty($lastError)) {
             return ResponseJSON::error(500, 'Internal Server Error: ' . $lastError['message']);
         }
-        
+
         return $this->json->setResponseAndReturn(200, 'Succesful', 'OK', $finalResp);
     }
 
 
-    public function updateImage (Request $req) {
+    public function updateImage(Request $req)
+    {
         if (!isset($req->files) || empty($req->files))
             return ResponseJSON::error(400, 'Bad Request: No image(s) found');
-        
+
         try {
             $file = array_values($req->files)[0];
             $object = FileUploader::updateCurrentImage($this->directory, $file, $req->body->name);
-        
         } catch (Exception $e) {
-            return ResponseJSON::error(500, 'Custom error: '.$e->getMessage());
+            return ResponseJSON::error(500, 'Custom error: ' . $e->getMessage());
         }
 
         $lastError = error_get_last();
@@ -99,11 +111,11 @@ class Images {
         }
 
         return $this->json->setResponseAndReturn(200, 'Succesful', 'OK', $object);
-        
     }
 
 
-    public function deleteImageByGET(Request $req) {
+    public function deleteImageByGET(Request $req)
+    {
         $imageName = $req->params->img;
 
         if (!isset($imageName) || empty($imageName))
@@ -113,12 +125,11 @@ class Images {
 
         if (!file_exists($imagePath))
             return ResponseJSON::error(404, 'Not Found: Image not found');
-        
+
         $isDeleted = unlink($imagePath);
 
-        return $isDeleted 
+        return $isDeleted
             ? $this->json->setResponseAndReturn(200, 'Succesful', 'OK', array('message' => 'Image deleted'))
-            : ResponseJSON::error(500, 'Internal Server Error: Image could not be deleted')
-        ;
+            : ResponseJSON::error(500, 'Internal Server Error: Image could not be deleted');
     }
 }
