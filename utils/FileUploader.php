@@ -9,6 +9,11 @@ class FileUploader
         return md5(date('YmdHis') . $data);
     }
 
+    private static function getNameFromFile($file)
+    {
+        return pathinfo($file['name'], PATHINFO_FILENAME);
+    }
+
 
     public static function updateCurrentImage($directory, $file, $filename)
     {
@@ -45,7 +50,7 @@ class FileUploader
         $isCreateWithName = isset($_GET['withName']);
         $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
         $finalFilename = $isCreateWithName
-            ? $file['name']
+            ? self::getNameFromFile($file['name'])
             : self::generateFileName($file['name']);
 
         $isMoved = move_uploaded_file($file['tmp_name'], $directory . $finalFilename . '.' . $ext);
