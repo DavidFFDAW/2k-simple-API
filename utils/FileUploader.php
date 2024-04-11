@@ -9,9 +9,9 @@ class FileUploader
         return md5(date('YmdHis') . $data);
     }
 
-    private static function getNameFromFile($file)
+    private static function getNameFromFile($filename)
     {
-        return pathinfo($file['name'], PATHINFO_FILENAME);
+        return pathinfo($filename, PATHINFO_FILENAME);
     }
 
 
