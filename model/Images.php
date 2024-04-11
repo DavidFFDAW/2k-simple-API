@@ -80,6 +80,11 @@ class Images
             if (file_exists($imagePath)) unlink($imagePath);
         }
 
+        file_put_contents(
+            dirname(__FILE__) . DIRECTORY_SEPARATOR . 'files.log',
+            print_r($request->files, true)
+        );
+
         foreach ($request->files as $file) {
             $finalResp[] = FileUploader::uploadImage($this->directory, $file);
         }
