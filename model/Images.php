@@ -75,8 +75,10 @@ class Images
             return ResponseJSON::error(400, 'Bad Request: No image(s) found');
 
         $isFileDelete = isset($_GET['fileToDelete']) && !empty($_GET['fileToDelete']);
-        $imagePath = $this->directory . trim($_GET['fileToDelete']);
-        if ($isFileDelete && file_exists($imagePath)) unlink($imagePath);
+        if ($isFileDelete) {
+            $imagePath = $this->directory . trim($_GET['fileToDelete']);
+            if (file_exists($imagePath)) unlink($imagePath);
+        }
 
         foreach ($request->files as $file) {
             $finalResp[] = FileUploader::uploadImage($this->directory, $file);
