@@ -18,6 +18,12 @@
         "method_type": "POST"
     },
     {
+        "route": "/image/bydataurl/upsert",
+        "model": "Images",
+        "method": "upsertImageByDataUrl",
+        "method_type": "POST"
+    },
+    {
         "route": "/images/delete",
         "model": "Images",
         "method": "deleteImageByGET",

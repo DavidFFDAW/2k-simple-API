@@ -116,6 +116,31 @@ class Images
     }
 
 
+    public function upsertImageByDataUrl(Request $req)
+    {
+        $dataUrl = $req->body->data_url;
+        $name = $req->body->name;
+
+        if (!isset($dataUrl) || empty($dataUrl))
+            return ResponseJSON::error(400, 'Bad Request: No dataUrl found');
+
+        if (!isset($name) || empty($name))
+            return ResponseJSON::error(400, 'Bad Request: No name found');
+
+        $isFileDelete = isset($_GET['fileToDelete']) && !empty($_GET['fileToDelete']);
+        if ($isFileDelete) {
+            $imagePath = $this->directory . trim($_GET['fileToDelete']);
+            if (file_exists($imagePath)) unlink($imagePath);
+        }
+
+        try {
+            $object = FileUploader::upsertImageByDataUrl($this->directory, $name, $dataUrl);
+        } catch (Exception $e) {
+            return ResponseJSON::error(500, 'Custom error: ' . $e->getMessage());
+        }
+    }
+
+
     public function deleteImageByGET(Request $req)
     {
         $imageName = $req->params->img;
