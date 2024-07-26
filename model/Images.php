@@ -135,6 +135,7 @@ class Images
 
         try {
             $object = FileUploader::upsertImageByDataUrl($this->directory, $name, $dataUrl);
+            return $this->json->setResponseAndReturn(200, 'Succesful', 'OK', $object);
         } catch (Exception $e) {
             return ResponseJSON::error(500, 'Custom error: ' . $e->getMessage());
         }
