@@ -40,6 +40,8 @@ class Router
 
     public function validateRoute()
     {
+        if (!in_array($_SERVER['HTTP_REFERER'], ALLOWED_REFERERS)) return ResponseJSON::error(403, 'Forbidden');
+
         $currentRoute = $this->getCurrentRoute();
 
         if (!$currentRoute) return ResponseJSON::error(404, 'Route not found');

@@ -160,4 +160,34 @@ class Images
             ? $this->json->setResponseAndReturn(200, 'Succesful', 'OK', array('message' => 'Image deleted'))
             : ResponseJSON::error(500, 'Internal Server Error: Image could not be deleted');
     }
+
+
+    public function getImagesZip(Request $req)
+    {
+        // get all images, create a zip with them and return it in header attachment
+        $images = scandir($this->directory);
+        $scanned = array_diff($images, array('.', '..'));
+        $zip = new ZipArchive();
+        $zipName = 'images.zip';
+        $zipPath = $this->directory . $zipName;
+
+        if ($zip->open($zipPath, ZipArchive::CREATE) !== TRUE) {
+            return ResponseJSON::error(500, 'Internal Server Error: Could not create zip file');
+        }
+
+        foreach ($scanned as $file) {
+            $dirFile = $this->directory . $file;
+            if (!is_file($dirFile)) continue;
+
+            $zip->addFile($dirFile, $file);
+        }
+        $zip->close();
+
+        header('Content-Type: application/zip');
+        header('Content-Disposition: attachment; filename="' . $zipName . '"');
+        header('Content-Length: ' . filesize($zipPath));
+        readfile($zipPath);
+        unlink($zipPath);
+        exit();
+    }
 }

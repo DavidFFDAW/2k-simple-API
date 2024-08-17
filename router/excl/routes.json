@@ -24,6 +24,12 @@
         "method_type": "POST"
     },
     {
+        "route": "/images/zip",
+        "model": "Images",
+        "method": "getImagesZip",
+        "method_type": "GET"
+    },
+    {
         "route": "/images/delete",
         "model": "Images",
         "method": "deleteImageByGET",
