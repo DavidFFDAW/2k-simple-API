@@ -81,7 +81,7 @@ class Images
         }
 
         foreach ($request->files as $file) {
-            $finalResp[] = FileUploader::uploadImage($this->directory, $file);
+            $finalResp[] = FileUploader::uploadWebP($this->directory, $file);
         }
 
         $lastError = error_get_last();

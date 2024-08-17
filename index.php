@@ -31,6 +31,18 @@ require MAIN_PATH . SP . 'loader.injector.php';
 
 // Router
 
+file_put_contents(
+    MAIN_PATH . SP . 'logs' . SP . date('Y-m-d') . '.requests.json',
+    json_encode(array(
+        'post' => $_POST,
+        'get' => $_GET,
+        'server' => $_SERVER,
+        'request' => $_REQUEST,
+        'files' => $_FILES,
+        'input' => file_get_contents('php://input')
+    ), JSON_PRETTY_PRINT)
+);
+
 try {
 
     $request = new Request();
