@@ -17,7 +17,7 @@ define('VERSION', '0.1.0');
 define('SP', DIRECTORY_SEPARATOR);
 define('MAIN_PATH', (dirname(__FILE__) . SP));
 define('MAIN_DIR', (dirname(__DIR__) . SP));
-define('ALLOWED_REFERERS', ['https://ww2k-platform-nextjs-pwa.vercel.app', 'http://localhost:3000']);
+define('ALLOWED_REFERERS', ['https://ww2k-platform-nextjs-pwa.vercel.app', 'http://localhost:3000', 'https://wwe-manager-app.vercel.app']);
 
 $env = PROD;
 

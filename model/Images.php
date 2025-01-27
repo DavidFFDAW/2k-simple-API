@@ -76,7 +76,7 @@ class Images
 
         $isFileDelete = isset($_GET['fileToDelete']) && !empty($_GET['fileToDelete']);
         if ($isFileDelete) {
-            $imagePath = $this->directory . trim($_GET['fileToDelete']);
+            $imagePath = $this->getDirectoryPath($_GET['fileToDelete']);
             if (file_exists($imagePath)) unlink($imagePath);
         }
 
@@ -115,6 +115,10 @@ class Images
         return $this->json->setResponseAndReturn(200, 'Succesful', 'OK', $object);
     }
 
+    private function getDirectoryPath($name)
+    {
+        return $this->directory . str_replace('./', '', str_replace('../', '', str_replace('..', '', trim($name))));
+    }
 
     public function upsertImageByDataUrl(Request $req)
     {
@@ -124,12 +128,13 @@ class Images
         if (!isset($dataUrl) || empty($dataUrl))
             return ResponseJSON::error(400, 'Bad Request: No dataUrl found');
 
-        if (!isset($name) || empty($name))
-            return ResponseJSON::error(400, 'Bad Request: No name found');
+        // since name is an optional parameter, we can generate a random name if it's not provided
+        // if (!isset($name) || empty($name))
+        //     return ResponseJSON::error(400, 'Bad Request: No name found');
 
         $isFileDelete = isset($_GET['fileToDelete']) && !empty($_GET['fileToDelete']);
         if ($isFileDelete) {
-            $imagePath = $this->directory . trim($_GET['fileToDelete']);
+            $imagePath = $this->getDirectoryPath($_GET['fileToDelete']);
             if (file_exists($imagePath)) unlink($imagePath);
         }
 

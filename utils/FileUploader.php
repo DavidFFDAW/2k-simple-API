@@ -49,7 +49,9 @@ class FileUploader
         if (empty($dataURL)) throw new Exception('No se ha enviado el parámetro `data_url`');
         $finalName = empty($name) ? self::generateFileName('gen_file') : $name;
 
-        $realImageContent = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $dataURL));
+        $encodedData = str_replace(' ', '+', $dataURL);
+        $realImageContent = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $encodedData));
+
         $imagePath = $directory . $finalName . '.' . self::$image_ext;
 
         $isCreated = file_put_contents($imagePath, $realImageContent);
